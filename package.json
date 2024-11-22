@@ -6,7 +6,7 @@
   "scripts": {
     "start:relay": "node relay-server.js",
     "start-BClient": "node client.js",
-    "start:client": "vite"
+    "start:client": "vite --host"
   },
   "keywords": [],
   "author": "",
