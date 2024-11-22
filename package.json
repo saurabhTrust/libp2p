@@ -1,0 +1,32 @@
+{
+  "name": "p2p-video-chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start:relay": "node relay-server.js",
+    "start-BClient": "node client.js",
+    "start:client": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@chainsafe/libp2p-noise": "^16.0.0",
+    "@chainsafe/libp2p-yamux": "^7.0.1",
+    "@libp2p/circuit-relay-v2": "^3.1.0",
+    "@libp2p/identify": "^3.0.10",
+    "@libp2p/mplex": "^11.0.10",
+    "@libp2p/tcp": "^10.0.11",
+    "@libp2p/webrtc": "^5.0.16",
+    "@libp2p/websockets": "^9.0.11",
+    "@multiformats/multiaddr": "^12.3.1",
+    "delay": "^6.0.0",
+    "it-pipe": "^3.0.1",
+    "libp2p": "^2.2.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
