@@ -107,7 +107,7 @@
 
         // Get this address from your relay server's console output
         const RELAY_PEER_ID = '12D3KooWAa1uG8UMx7Ag2hMxfRGvcMfiLXFMk9Y1J8uNtHxE9FEz'; // Your relay's peer ID
-        const RELAY_ADDRESS = `/ip4/${origin}/tcp/9090/wss/p2p/${RELAY_PEER_ID}`;
+        const RELAY_ADDRESS = `/ip4/${origin}/tcp/9090/ws/p2p/${RELAY_PEER_ID}`;
         async function initialize(role = 'listener') {
             try {
                 console.log(`Initializing as ${role}`);
