@@ -94,6 +94,13 @@ class P2PClient {
             try {
                 const peerId = connection.remotePeer.toString();
                 const decoder = new TextDecoder();
+                if (!this.localStream) {
+                    await this.startMedia();
+                    const localVideo = document.getElementById("localVideo");
+                    if (localVideo) {
+                        localVideo.srcObject = this.localStream;
+                    }
+                }
 
                 for await (const data of stream.source) {
                     const message = JSON.parse(decoder.decode(data.subarray()));
