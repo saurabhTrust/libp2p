@@ -100,11 +100,14 @@
         import P2PClient from './client';
         import { multiaddr } from '@multiformats/multiaddr';
 
+        const origin = window.location.hostname;
+        console.log(origin);
+
         let p2pClient;
 
         // Get this address from your relay server's console output
-        const RELAY_PEER_ID = '12D3KooWBayWnKrJK4XAQwm1PXUtrzZxkTeB6cqK1RK61iUKK1cS'; // Your relay's peer ID
-        const RELAY_ADDRESS = `/ip4/127.0.0.1/tcp/9090/ws/p2p/${RELAY_PEER_ID}`;
+        const RELAY_PEER_ID = '12D3KooWAX9dUQ7tAN1hSwVhuTLkeauLTvknf6SvRx1mMvBARULc'; // Your relay's peer ID
+        const RELAY_ADDRESS = `/ip4/${origin}/tcp/9090/ws/p2p/${RELAY_PEER_ID}`;
         async function initialize(role = 'listener') {
             try {
                 console.log(`Initializing as ${role}`);

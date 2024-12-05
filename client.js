@@ -142,6 +142,8 @@ class P2PClient {
         peerConnection.ontrack = (event) => {
             console.log('Received remote track');
             const remoteVideo = document.getElementById('remoteVideo');
+            console.log(remoteVideo);
+            console.log(event.streams[0]);
             if (remoteVideo) {
                 remoteVideo.srcObject = event.streams[0];
             }
