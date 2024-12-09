@@ -82,12 +82,7 @@ class P2PClient {
                 webSockets({ 
                     filter: filters.all,
                     websocket: {
-                        rejectUnauthorized: false,
-                        // Add protocols explicitly
-                        protocol: 'websocket',
-                        headers: {
-                            'Sec-WebSocket-Protocol': 'libp2p'
-                        }
+                        rejectUnauthorized: false
                     }
                 }),
                 webRTC({
