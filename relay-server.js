@@ -10,7 +10,7 @@ import * as filters from '@libp2p/websockets/filters'
 async function startRelayServer() {
    const relay = await createLibp2p({
        addresses: {
-           listen: ['/ip4/0.0.0.0/tcp/9090/wss']
+           listen: ['/ip4/0.0.0.0/tcp/9090/ws']
        },
        transports: [
            webSockets({
