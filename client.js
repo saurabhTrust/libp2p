@@ -17,13 +17,79 @@ class P2PClient {
         this.peerConnections = new Map();
     }
 
+    // async initializeAsListener(relayMultiaddr) {
+    //     console.log('Attempting to connect with multiaddr:', relayMultiaddr);
+    //     const ma = multiaddr(relayMultiaddr);
+    //     console.log('Parsed multiaddr:', ma.toString());
+    //     this.node = await createLibp2p({
+    //         addresses: {
+    //             listen: ['/p2p-circuit', '/webrtc']
+    //         },
+    //         transports: [
+    //             webSockets({ 
+    //                 filter: filters.all,
+    //                 websocket: {
+    //                     // Add these options for better browser compatibility
+    //                     rejectUnauthorized: false,
+    //                     headers: {
+    //                         'User-Agent': 'libp2p-websockets'
+    //                     }
+    //                 }
+    //             }),
+    //             webRTC({
+    //                 rtcConfiguration: {
+    //                     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+    //                 }
+    //             }),
+    //             circuitRelayTransport()
+    //         ],
+    //         connectionEncrypters: [noise()],
+    //         streamMuxers: [yamux()],
+    //         services: {
+    //             identify: identify()
+    //         },
+    //         connectionGater: {  // connection gater
+    //             denyDialMultiaddr: () => false,
+    //         }
+    //     });
+
+    //     // Register protocol handlers before starting
+    //     this.setupSignalingHandler();
+
+    //     await this.node.start();
+    //     await this.node.dial(relayMultiaddr);
+    //     console.log('Connected to relay as listener');
+
+    //     // Wait for WebRTC address
+    //     let webRTCAddr;
+    //     while (true) {
+    //         webRTCAddr = this.node.getMultiaddrs().find(ma => ma.toString().includes('/webrtc'));
+    //         if (webRTCAddr) break;
+    //         await new Promise(resolve => setTimeout(resolve, 1000));
+    //     }
+
+    //     console.log('Listener ready with address:', webRTCAddr.toString());
+    //     return this.node.peerId.toString();
+    // }
     async initializeAsListener(relayMultiaddr) {
+        console.log('Attempting to connect with multiaddr:', relayMultiaddr);
+        
         this.node = await createLibp2p({
             addresses: {
                 listen: ['/p2p-circuit', '/webrtc']
             },
             transports: [
-                webSockets({ filter: filters.all }),
+                webSockets({ 
+                    filter: filters.all,
+                    websocket: {
+                        rejectUnauthorized: false,
+                        // Add protocols explicitly
+                        protocol: 'websocket',
+                        headers: {
+                            'Sec-WebSocket-Protocol': 'libp2p'
+                        }
+                    }
+                }),
                 webRTC({
                     rtcConfiguration: {
                         iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
@@ -36,19 +102,28 @@ class P2PClient {
             services: {
                 identify: identify()
             },
-            connectionGater: {  // connection gater
-                denyDialMultiaddr: () => false,
+            connectionGater: {
+                denyDialMultiaddr: () => false
             }
         });
 
-        // Register protocol handlers before starting
         this.setupSignalingHandler();
 
-        await this.node.start();
-        await this.node.dial(relayMultiaddr);
-        console.log('Connected to relay as listener');
+        try {
+            console.log('Starting node...');
+            await this.node.start();
+            console.log('Node started, attempting to dial relay...');
+            await this.node.dial(relayMultiaddr);
+            console.log('Connected to relay as listener');
+        } catch (error) {
+            console.error('Detailed connection error:', {
+                message: error.message,
+                name: error.name,
+                stack: error.stack
+            });
+            throw error;
+        }
 
-        // Wait for WebRTC address
         let webRTCAddr;
         while (true) {
             webRTCAddr = this.node.getMultiaddrs().find(ma => ma.toString().includes('/webrtc'));

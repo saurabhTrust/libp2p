@@ -106,8 +106,8 @@
         let p2pClient;
 
         // Get this address from your relay server's console output
-        const RELAY_PEER_ID = '12D3KooWRwaETJvqUqZVZdDuFzTTrBzt3oGEKWKWZevySWxqvtkY'; // Your relay's peer ID
-        const RELAY_ADDRESS = `/dns4/libp2prelay.dev.trustgrid.com/tcp/443/wss/ws/p2p/${RELAY_PEER_ID}`;
+        const RELAY_PEER_ID = '12D3KooWMpBqSr3GHm4JzavuXbjrZMaae1Hdo8VTK9m5mzXt7YxS'; // Your relay's peer ID
+        const RELAY_ADDRESS = `/dns4/libp2prelay.dev.trustgrid.com/tcp/443/wss/p2p/${RELAY_PEER_ID}`;
         async function initialize(role = 'listener') {
             try {
                 console.log(`Initializing as ${role}`);

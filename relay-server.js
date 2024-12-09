@@ -14,7 +14,10 @@ async function startRelayServer() {
        },
        transports: [
            webSockets({
-               filter: filters.all
+               filter: filters.all,
+               websocket: {
+                protocol: 'libp2p'
+               }
            })
        ],
        connectionEncrypters: [noise()],
